@@ -16,8 +16,8 @@ public class MyDemoLoggingAspect {
 	// this is where we add all of our related advices for logging
 	
 	// let's start with an @Before advice
-	@Before("forDaoPackage()") // The parenthetical exp is a pointcut expression
-	public void beforeAddAccountAdvice() {
+	@Before("forDaoPackageNoGetterSetter()") // The parenthetical exp is a pointcut expression
+	private void beforeAddAccountAdvice() {
 	  // A  predicate expression for where advice should be applied
 	  // An "execution" point cut applies to the execution of a given method
 	  // execution(modifiers-pattern? return-type-pattern declaring-type-patter? method-name-pattern(param-pattern) throws-pattern?)
@@ -33,8 +33,19 @@ public class MyDemoLoggingAspect {
 		System.out.println(getClass() + ": preAddAccount()");
 	}
 	
-	@Before("forDaoPackage()")
-	public void performApiAnalytics() {
+	@Before("forDaoPackageNoGetterSetter()")
+	private void performApiAnalytics() {
 		System.out.println(getClass() + ":performApiAnalytics()");
 	}
+	
+	// Create a pointcut for getters
+	@Pointcut("execution(* com.jdivirgilio.aopdemo.dao.*.get*(..))")
+	private void getter() {}
+
+	// Create a pointcut for setters
+	@Pointcut("execution(* com.jdivirgilio.aopdemo.dao.*.set*(..))")
+	private void setter() {}
+	
+	@Pointcut("forDaoPackage() && !(getter() || setter())")
+	private void forDaoPackageNoGetterSetter() {}
 }
