@@ -21,7 +21,9 @@ public class MainDemoApp {
 		
 		// Call the business methond
 		accountDAO.addAccount();
+		accountDAO.doWork();
 		membershipDAO.addAccount();
+		membershipDAO.goToSleep();
 		
 		// Close the context
 		context.close();

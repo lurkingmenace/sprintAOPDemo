@@ -2,17 +2,22 @@ package com.jdivirgilio.aopdemo.aspect;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
 public class MyDemoLoggingAspect {
 
+	// Point cut expression declaration. Used to avoid multiple C&P of the same point cut expression
+	@Pointcut("execution(* com.jdivirgilio.aopdemo.dao.*.*(..))")
+	private void forDaoPackage() {}
+	
 	// this is where we add all of our related advices for logging
 	
 	// let's start with an @Before advice
-	@Before("execution(public void addAccount())") // The parenthetical exp is a pointcut expression
-	public void preAddAccount() {
+	@Before("forDaoPackage()") // The parenthetical exp is a pointcut expression
+	public void beforeAddAccountAdvice() {
 	  // A  predicate expression for where advice should be applied
 	  // An "execution" point cut applies to the execution of a given method
 	  // execution(modifiers-pattern? return-type-pattern declaring-type-patter? method-name-pattern(param-pattern) throws-pattern?)

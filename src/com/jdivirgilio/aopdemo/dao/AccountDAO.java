@@ -10,4 +10,8 @@ public class AccountDAO {
 		System.out.println(getClass() + ": addAcount()");
 	}
 	
+	public boolean doWork() {
+		System.out.println(getClass() + ": doWork()");
+		return true;
+	}
 }
