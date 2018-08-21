@@ -33,5 +33,8 @@ public class MyDemoLoggingAspect {
 		System.out.println(getClass() + ": preAddAccount()");
 	}
 	
-	
+	@Before("forDaoPackage()")
+	public void performApiAnalytics() {
+		System.out.println(getClass() + ":performApiAnalytics()");
+	}
 }

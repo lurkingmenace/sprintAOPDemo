@@ -22,6 +22,13 @@ public class MainDemoApp {
 		// Call the business methond
 		accountDAO.addAccount();
 		accountDAO.doWork();
+		
+		accountDAO.setName("test");
+		accountDAO.setServiceCode("gold");
+		
+		System.out.println("accountDAO.getName(): " + accountDAO.getName());
+		System.out.println("accountDAO.getServiceCode(): " + accountDAO.getServiceCode());
+				
 		membershipDAO.addAccount();
 		membershipDAO.goToSleep();
 		
