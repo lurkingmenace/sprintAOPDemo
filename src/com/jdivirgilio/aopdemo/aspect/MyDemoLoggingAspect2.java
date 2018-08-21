@@ -11,12 +11,12 @@ import com.jdivirgilio.aopdemo.dao.AccountDAO;
 @Aspect
 @Component
 @Order(10)
-public class MyDemoLoggingAspect {
+public class MyDemoLoggingAspect2 {
 
 	// this is where we add all of our related advices for logging
 	
 	// let's start with an @Before advice
-	@Before("AopExpressions.forDaoPackage()") // The parenthetical exp is a pointcut expression
+	@Before("AopExpressions.forDaoPackageNoGetterSetter()") // The parenthetical exp is a pointcut expression
 	private void beforeAddAccountAdvice(JoinPoint joinPoint) {
 	  // A  predicate expression for where advice should be applied
 	  // An "execution" point cut applies to the execution of a given method
@@ -37,7 +37,9 @@ public class MyDemoLoggingAspect {
 		
 		// display the method args
 		for (Object o : joinPoint.getArgs()) {
-			System.out.println("	Arg: " + o);
+			if (o instanceof AccountDAO) {
+				System.out.println("	Arg: " + (o instanceof AccountDAO ? (AccountDAO)o : o));
+			}
 		}
 		
 	}
