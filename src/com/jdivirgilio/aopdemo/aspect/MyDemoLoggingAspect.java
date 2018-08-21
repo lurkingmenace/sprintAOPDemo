@@ -9,14 +9,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyDemoLoggingAspect {
 
-	// Point cut expression declaration. Used to avoid multiple C&P of the same point cut expression
-	@Pointcut("execution(* com.jdivirgilio.aopdemo.dao.*.*(..))")
-	private void forDaoPackage() {}
-	
 	// this is where we add all of our related advices for logging
 	
 	// let's start with an @Before advice
-	@Before("forDaoPackageNoGetterSetter()") // The parenthetical exp is a pointcut expression
+	@Before("AopExpressions.forDaoPackageNoGetterSetter()") // The parenthetical exp is a pointcut expression
 	private void beforeAddAccountAdvice() {
 	  // A  predicate expression for where advice should be applied
 	  // An "execution" point cut applies to the execution of a given method
@@ -32,20 +28,5 @@ public class MyDemoLoggingAspect {
 	  // matching package would be similar to ("execution(* com.jdivirgilio.aopdemo.*.*(..))")
 		System.out.println(getClass() + ": preAddAccount()");
 	}
-	
-	@Before("forDaoPackageNoGetterSetter()")
-	private void performApiAnalytics() {
-		System.out.println(getClass() + ":performApiAnalytics()");
-	}
-	
-	// Create a pointcut for getters
-	@Pointcut("execution(* com.jdivirgilio.aopdemo.dao.*.get*(..))")
-	private void getter() {}
 
-	// Create a pointcut for setters
-	@Pointcut("execution(* com.jdivirgilio.aopdemo.dao.*.set*(..))")
-	private void setter() {}
-	
-	@Pointcut("forDaoPackage() && !(getter() || setter())")
-	private void forDaoPackageNoGetterSetter() {}
 }
