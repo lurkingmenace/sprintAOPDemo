@@ -1,5 +1,6 @@
 package com.jdivirgilio.aopdemo.aspect;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.core.annotation.Order;
@@ -14,7 +15,7 @@ public class MyDemoLoggingAspect {
 	
 	// let's start with an @Before advice
 	@Before("AopExpressions.forDaoPackageNoGetterSetter()") // The parenthetical exp is a pointcut expression
-	private void beforeAddAccountAdvice() {
+	private void beforeAddAccountAdvice(JoinPoint joinPoint) {
 	  // A  predicate expression for where advice should be applied
 	  // An "execution" point cut applies to the execution of a given method
 	  // execution(modifiers-pattern? return-type-pattern declaring-type-patter? method-name-pattern(param-pattern) throws-pattern?)
@@ -28,6 +29,15 @@ public class MyDemoLoggingAspect {
 	  //                              The param if specified..must include the fully qualified class name (no var)
 	  // matching package would be similar to ("execution(* com.jdivirgilio.aopdemo.*.*(..))")
 		System.out.println(getClass() + ": preAddAccount()");
+		
+		// display the method sig
+		System.out.println("Method: " + joinPoint.getSignature());
+		
+		// display the method args
+		for (Object o : joinPoint.getArgs()) {
+			System.out.println("	Arg: " + o);
+		}
+		
 	}
 
 }
