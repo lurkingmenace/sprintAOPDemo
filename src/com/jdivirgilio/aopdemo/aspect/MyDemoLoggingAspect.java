@@ -11,7 +11,7 @@ public class MyDemoLoggingAspect {
 	// this is where we add all of our related advices for logging
 	
 	// let's start with an @Before advice
-	@Before("execution(public void com.jdivirgilio.aopdemo.dao.AccountDAO.addAccount())") // The parenthetical exp is a pointcut expression
+	@Before("execution(public void addAccount())") // The parenthetical exp is a pointcut expression
 	public void preAddAccount() {
 	  // A  predicate expression for where advice should be applied
 	  // An "execution" point cut applies to the execution of a given method
@@ -20,7 +20,12 @@ public class MyDemoLoggingAspect {
 	  // The above @Before leaves off class name. It will match any calls with the sig above
 	  // @Before("execution(public void add*())") .. matches all methods starting with add....
 	  // @Before("execution(* add*())") .. minimum required w/ wildcards
-		System.out.println(getClass() + ": beforeAddAccountAdvice()");
+	  // Parameter Pattern Wildcards: () - no parms
+	  //                              (*) - one arg of any type
+	  //               				  (..) - 0 or more args of any type
+	  //                              The param if specified..must include the fully qualified class name (no var)
+	  // matching package would be similar to ("execution(* com.jdivirgilio.aopdemo.*.*(..))")
+		System.out.println(getClass() + ": preAddAccount()");
 	}
 	
 	
