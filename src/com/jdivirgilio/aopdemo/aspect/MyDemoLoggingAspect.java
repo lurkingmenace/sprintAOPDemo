@@ -11,7 +11,7 @@ public class MyDemoLoggingAspect {
 	// this is where we add all of our related advices for logging
 	
 	// let's start with an @Before advice
-	@Before("execution(public void addAccount())") // The parenthetical exp is a pointcut expression
+	@Before("execution(public void com.jdivirgilio.aopdemo.dao.AccountDAO.addAccount())") // The parenthetical exp is a pointcut expression
 	public void preAddAccount() {
 	  // A  predicate expression for where advice should be applied
 	  // An "execution" point cut applies to the execution of a given method

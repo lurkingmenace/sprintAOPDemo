@@ -14,8 +14,10 @@ public class MainDemoApp {
 				new AnnotationConfigApplicationContext(DemoConfig.class);
 		
 		// Get the bean from the container
-		AccountDAO accountDAO = context.getBean("accountDAO", AccountDAO.class);
-		MembershipDAO membershipDAO = context.getBean("membershipDAO", MembershipDAO.class);
+		AccountDAO accountDAO = 
+				context.getBean("accountDAO", AccountDAO.class);
+		MembershipDAO membershipDAO = 
+				context.getBean("membershipDAO", MembershipDAO.class);
 		
 		// Call the business methond
 		accountDAO.addAccount();
