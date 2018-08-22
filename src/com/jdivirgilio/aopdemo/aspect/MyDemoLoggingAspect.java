@@ -1,11 +1,15 @@
 package com.jdivirgilio.aopdemo.aspect;
 
+import java.util.List;
+
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.jdivirgilio.aopdemo.Account;
 import com.jdivirgilio.aopdemo.dao.AccountDAO;
 
 @Aspect
@@ -38,6 +42,27 @@ public class MyDemoLoggingAspect {
 		// display the method args
 		for (Object o : joinPoint.getArgs()) {
 			System.out.println("	Arg: " + o);
+		}
+		
+	}
+	
+	@AfterReturning(pointcut="execution(* com.jdivirgilio.aopdemo.dao.AccountDAO.findAccounts(..))",
+			returning="accounts")
+	public void afterReturningFindAccountsAdvice(JoinPoint joinPoint, List<Account> accounts) {
+		
+		// print out which method we are advising on
+		String method = joinPoint.getSignature().toShortString();
+		System.out.println("\nExecuting @AfterReturing on method " + method);
+		System.out.println("\n    result is " + accounts);
+		
+		// Post process the data - modify it
+		changeAllNamesToUpperCase(accounts);
+	}
+
+	private void changeAllNamesToUpperCase(List<Account> accounts) {
+
+		for (Account account: accounts) {
+			account.setName(account.getName().toUpperCase());
 		}
 		
 	}

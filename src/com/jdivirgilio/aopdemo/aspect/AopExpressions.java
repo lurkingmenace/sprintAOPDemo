@@ -8,6 +8,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class AopExpressions {
 
+	// Different Advice Types
+	/*
+	 * Before advice: run before the method
+	 * After returning adivce: run after the method (success execution)
+	 * After throwing advice: run after method if exception thrown
+	 * After finally advice: run after the method and finally has executed
+	 * Around advice: run before and after the method
+	 */
+		
 	// Point cut expression declaration. Used to avoid multiple C&P of the same point cut expression
 	@Pointcut("execution(* com.jdivirgilio.aopdemo.dao.*.*(..))")
 	public void forDaoPackage() {}

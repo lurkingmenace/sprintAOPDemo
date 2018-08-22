@@ -1,6 +1,11 @@
 package com.jdivirgilio.aopdemo.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
+
+import com.jdivirgilio.aopdemo.Account;
 
 @Component
 public class AccountDAO {
@@ -36,5 +41,23 @@ public class AccountDAO {
 	public boolean doWork() {
 		System.out.println(getClass() + ": doWork()");
 		return true;
+	}
+	
+	public List<Account> findAccounts() {
+		
+		List<Account> accounts = new ArrayList<>();
+		
+		// create sample acounts
+		Account account = new Account("John", "gold");
+		Account account1 = new Account("Mary", "silver");
+		Account account2 = new Account("Pete", "bronze");
+		
+		// Add to list
+		accounts.add(account);
+		accounts.add(account1);
+		accounts.add(account2);
+		
+		return accounts;
+		
 	}
 }
