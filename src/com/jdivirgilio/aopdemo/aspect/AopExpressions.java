@@ -13,7 +13,9 @@ public class AopExpressions {
 	 * Before advice: run before the method
 	 * After returning adivce: run after the method (success execution)
 	 * After throwing advice: run after method if exception thrown
-	 * After finally advice: run after the method and finally has executed
+	 * After finally advice: run after the method but before the method returns (runs after success OR failure [exception])
+	 *                       This will run before @AfterThrowing (just like the finally block) THis does not have access to the
+	 *                       exception
 	 * Around advice: run before and after the method
 	 */
 		

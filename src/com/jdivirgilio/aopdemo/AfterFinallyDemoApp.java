@@ -1,12 +1,13 @@
 package com.jdivirgilio.aopdemo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.jdivirgilio.aopdemo.dao.AccountDAO;
 
-public class AfterReturningDemoApp {
+public class AfterFinallyDemoApp {
 
 	public static void main(String[] args) {
 
@@ -18,9 +19,14 @@ public class AfterReturningDemoApp {
 		AccountDAO accountDAO = 
 				context.getBean("accountDAO", AccountDAO.class);
 		
-		List<Account> accounts = accountDAO.findAccounts(false);
+		List<Account> accounts = new ArrayList<>();
+		try {
+			accounts = accountDAO.findAccounts(true);
+		} catch (Exception e) {
+			System.out.println("Program caught Exception: " + e);
+		}
 
-		System.out.println("AfterReturningDempApp");
+		System.out.println("AfterThrowingDemoApp");
 		System.out.println("---");
 		System.out.println(accounts);
 		System.out.println("\n");

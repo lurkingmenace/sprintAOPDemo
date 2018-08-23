@@ -3,6 +3,7 @@ package com.jdivirgilio.aopdemo.aspect;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
@@ -70,7 +71,11 @@ public class MyDemoLoggingAspect {
 	@AfterThrowing(pointcut="execution(* com.jdivirgilio.aopdemo.dao.AccountDAO.findAccounts(..))",
 			throwing="e")
 	public void afterThrowing(JoinPoint joinPoint, Throwable e) {
-		System.out.println("In the advice. The exception is: " + e.getMessage());
+		System.out.println("In the @AfterThrowing advice. The exception is: " + e.getMessage());
 	}
 
+	@After("execution(* com.jdivirgilio.aopdemo.dao.AccountDAO.findAccounts(..))")
+	public void afterFinallyAdvice(JoinPoint joinPoint) {
+		System.out.println("In the @After advice. After method: " + joinPoint.getSignature().toShortString());
+	}
 }
