@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.jdivirgilio.aopdemo.Account;
-import com.jdivirgilio.aopdemo.dao.AccountDAO;
 
 @Aspect
 @Component
@@ -65,6 +65,12 @@ public class MyDemoLoggingAspect {
 			account.setName(account.getName().toUpperCase());
 		}
 		
+	}
+	
+	@AfterThrowing(pointcut="execution(* com.jdivirgilio.aopdemo.dao.AccountDAO.findAccounts(..))",
+			throwing="e")
+	public void afterThrowing(JoinPoint joinPoint, Throwable e) {
+		System.out.println("In the advice. The exception is: " + e.getMessage());
 	}
 
 }

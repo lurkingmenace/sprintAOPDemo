@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.jdivirgilio.aopdemo.dao.AccountDAO;
-import com.jdivirgilio.aopdemo.dao.MembershipDAO;
 
 public class AfterThrowingDemoApp {
 
