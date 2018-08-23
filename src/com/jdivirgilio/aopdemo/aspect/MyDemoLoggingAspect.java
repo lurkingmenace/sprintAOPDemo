@@ -1,11 +1,17 @@
 package com.jdivirgilio.aopdemo.aspect;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.core.annotation.Order;
@@ -18,6 +24,8 @@ import com.jdivirgilio.aopdemo.Account;
 @Order(10)
 public class MyDemoLoggingAspect {
 
+	final Logger logger = Logger.getLogger(getClass().getName());
+	
 	// this is where we add all of our related advices for logging
 	
 	// let's start with an @Before advice
@@ -35,14 +43,14 @@ public class MyDemoLoggingAspect {
 	  //               				  (..) - 0 or more args of any type
 	  //                              The param if specified..must include the fully qualified class name (no var)
 	  // matching package would be similar to ("execution(* com.jdivirgilio.aopdemo.*.*(..))")
-		System.out.println(getClass() + ": preAddAccount()");
+		logger.info(getClass() + ": preAddAccount()");
 		
 		// display the method sig
-		System.out.println("Method: " + joinPoint.getSignature());
+		logger.info("Method: " + joinPoint.getSignature());
 		
 		// display the method args
 		for (Object o : joinPoint.getArgs()) {
-			System.out.println("	Arg: " + o);
+			logger.info("	Arg: " + o.toString());
 		}
 		
 	}
@@ -53,8 +61,8 @@ public class MyDemoLoggingAspect {
 		
 		// print out which method we are advising on
 		String method = joinPoint.getSignature().toShortString();
-		System.out.println("\nExecuting @AfterReturing on method " + method);
-		System.out.println("\n    result is " + accounts);
+		logger.info("\nExecuting @AfterReturing on method " + method);
+		logger.info("\n    result is " + accounts);
 		
 		// Post process the data - modify it
 		changeAllNamesToUpperCase(accounts);
@@ -71,11 +79,34 @@ public class MyDemoLoggingAspect {
 	@AfterThrowing(pointcut="execution(* com.jdivirgilio.aopdemo.dao.AccountDAO.findAccounts(..))",
 			throwing="e")
 	public void afterThrowing(JoinPoint joinPoint, Throwable e) {
-		System.out.println("In the @AfterThrowing advice. The exception is: " + e.getMessage());
+		logger.info("In the @AfterThrowing advice. The exception is: " + e.getMessage());
 	}
 
 	@After("execution(* com.jdivirgilio.aopdemo.dao.AccountDAO.findAccounts(..))")
 	public void afterFinallyAdvice(JoinPoint joinPoint) {
-		System.out.println("In the @After advice. After method: " + joinPoint.getSignature().toShortString());
+		logger.info("In the @After advice. After method: " + joinPoint.getSignature().toShortString());
+	}
+	
+	@Around("execution(* com.jdivirgilio.aopdemo.service.*.getFortune(..))")
+	public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
+		
+		// print out the method we are advising on
+		logger.info("In @Around advice. Method: " + joinPoint.getSignature().toShortString());
+		
+		// get begin timestamp
+		Calendar startTime = Calendar.getInstance();
+		
+		// execute the method
+		joinPoint.proceed();
+		
+		// get the ending timestamp
+		Calendar endTime = Calendar.getInstance();
+		
+		// display the duration
+		long diff = endTime.getTimeInMillis() - startTime.getTimeInMillis();
+		
+		logger.info("In @Around advice. The duration was: " + TimeUnit.MILLISECONDS.toMillis(diff) + " milliseconds");
+		
+		return null;
 	}
 }
