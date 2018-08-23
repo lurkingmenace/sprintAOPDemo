@@ -43,7 +43,7 @@ public class AccountDAO {
 		return true;
 	}
 	
-	public List<Account> findAccounts() {
+	public List<Account> findAccounts(boolean activateException) {
 		
 		List<Account> accounts = new ArrayList<>();
 		
@@ -56,6 +56,10 @@ public class AccountDAO {
 		accounts.add(account);
 		accounts.add(account1);
 		accounts.add(account2);
+		
+		if (activateException) {
+			throw new RuntimeException("This is the exception");
+		}
 		
 		return accounts;
 		
