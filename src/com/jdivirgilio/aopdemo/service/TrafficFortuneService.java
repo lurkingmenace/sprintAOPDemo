@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class TrafficFortuneService {
 
 	
-	public String getFortune() {
+	public String getFortune(boolean forceException) throws RuntimeException {
 		
 		// simulate a delay
 		try {
@@ -17,8 +17,13 @@ public class TrafficFortuneService {
 			e.printStackTrace();
 		}
 				
-		// return the fortune
-		return "Take public transit!";
+		if (forceException) {
+			throw new RuntimeException("All Clear!");
+		}
+		else {
+			// return the fortune
+			return "Take public transit!";
+		}
 		
 	}
 	

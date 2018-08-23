@@ -97,7 +97,18 @@ public class MyDemoLoggingAspect {
 		Calendar startTime = Calendar.getInstance();
 		
 		// execute the method
-		joinPoint.proceed();
+		Object o = null;
+		
+		try {
+			o = joinPoint.proceed();
+		} catch (Exception e) {
+			// Log the exception
+			logger.info("@Around caught exception: " + e.getMessage());
+			
+			// give user a customer message/fortune
+			o = "The roads are icey!"; 
+
+		}
 		
 		// get the ending timestamp
 		Calendar endTime = Calendar.getInstance();
@@ -107,6 +118,6 @@ public class MyDemoLoggingAspect {
 		
 		logger.info("In @Around advice. The duration was: " + TimeUnit.MILLISECONDS.toMillis(diff) + " milliseconds");
 		
-		return null;
+		return o;
 	}
 }

@@ -16,7 +16,7 @@ public class AroundDemoApp {
 		TrafficFortuneService tfs = context.getBean("trafficFortuneService", TrafficFortuneService.class);
 		
 		System.out.println("The fortune is: "
-				+ tfs.getFortune());
+				+ tfs.getFortune(false));
 		
 		System.out.println("finished");
 		// Close the context
