@@ -107,7 +107,8 @@ public class MyDemoLoggingAspect {
 			
 			// give user a customer message/fortune
 			o = "The roads are icey!"; 
-
+			
+			// Or we could just rethrow the exception: throw e;
 		}
 		
 		// get the ending timestamp
